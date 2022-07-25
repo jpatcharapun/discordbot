@@ -47,7 +47,7 @@ services:
     image: jpatcharapun1702/rubyscum:1.2
     container_name: rbSquads
     links:
-      - dbo
+      - db
     command: ["ruby", "run_squads.rb"]
   discordBotNode:
     image: jpatcharapun1702/discordbotnodejs:1.2
