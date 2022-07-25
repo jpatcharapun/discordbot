@@ -27,32 +27,24 @@ services:
       - 80:80
   rbChat:
     image: jpatcharapun1702/rubyscum:1.2
-    build:
-      dockerfile: DockerfileChat
     container_name: rbChat
     links:
       - db
     command: ["ruby", "run_chats.rb"]
   rbKill:
     image: jpatcharapun1702/rubyscum:1.2
-    build:
-      dockerfile: DockerfileKill
     container_name: rbKill
     links:
       - db
     command: ["ruby", "run_kills.rb"]
   rbRewards:
     image: jpatcharapun1702/rubyscum:1.2
-    build:
-      dockerfile: DockerfileRewards
     container_name: rbRewards
     links:
       - db
     command: ["ruby", "run_rewards.rb"]
   rbSquads:
     image: jpatcharapun1702/rubyscum:1.2
-    build:
-      dockerfile: DockerfileSquads
     container_name: rbSquads
     links:
       - dbo
