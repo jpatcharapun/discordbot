@@ -1,0 +1,67 @@
+version: '3'
+ 
+services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: roottoor
+      MYSQL_DATABASE: scum
+      MYSQL_USER: scum
+      MYSQL_PASSWORD: scum
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 80:80
+  rbChat:
+    image: jpatcharapun1702/rubyscum:1.2
+    build:
+      dockerfile: DockerfileChat
+    container_name: rbChat
+    links:
+      - db
+    command: ["ruby", "run_chats.rb"]
+  rbKill:
+    image: jpatcharapun1702/rubyscum:1.2
+    build:
+      dockerfile: DockerfileKill
+    container_name: rbKill
+    links:
+      - db
+    command: ["ruby", "run_kills.rb"]
+  rbRewards:
+    image: jpatcharapun1702/rubyscum:1.2
+    build:
+      dockerfile: DockerfileRewards
+    container_name: rbRewards
+    links:
+      - db
+    command: ["ruby", "run_rewards.rb"]
+  rbSquads:
+    image: jpatcharapun1702/rubyscum:1.2
+    build:
+      dockerfile: DockerfileSquads
+    container_name: rbSquads
+    links:
+      - dbo
+    command: ["ruby", "run_squads.rb"]
+  discordBotNode:
+    image: jpatcharapun1702/discordbotnodejs:1.2
+    container_name: discordBotNode
+    links:
+      - db
+    command: ["node", "discord_bot.js"]
+volumes:
+  dbdata:
